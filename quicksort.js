@@ -1,28 +1,45 @@
-let unsortedArr =  [4, 2, 6, 5, 3, 9];
 
-function partition(items, left, right) {
-    const len = unsortedArr.lenght;
-    const pivot = 5;
-    //unsortedArr[Math.round(Math.random(0, len-1)* 10)];
-    let leftIndex = left;
-    let rightIndex = right;
+let unsorted = [78, 67, 13, 79];
 
-    while (leftIndex <= rightIndex) {
-        while (unsordtedArr[leftIndex] < pivot) {
-            leftIndex++;
-        }
-    
-        while(unsortedArr[rightIndex] > pivot) {
-            rightIndex--;
-        }
+function quickSort(arr, startIndex, endIndex) {
+    let len = arr.len;
+    let pivot;
+    let partitionIndex;
 
-        if (leftIndex <= rightIndex) {
-            swap(items, leftIndex, rightIndex);
-            leftIndex++;
-            rightIndex--;
-        }
+    if (startIndex < endIndex) {
+        pivot = endIndex;
+        partitionIndex = partition(arr, pivot, startIndex, endIndex);
+        
+       quickSort(arr, startIndex, partitionIndex - 1);
+       quickSort(arr, partitionIndex + 1, endIndex);
     }
-    return leftIndex;
+
+    return arr;
 }
 
-partition();
+function partition(arr, pivot, startIndex, endIndex) {
+    let pivotValue = arr[pivot];
+    let partitionIndex = startIndex;
+
+    for (let initialIndex = startIndex; initialIndex < endIndex; initialIndex++) {
+        if (arr[initialIndex] < pivotValue) {
+            swap(arr, initialIndex, partitionIndex);
+            partitionIndex++;
+        }
+    }
+
+    swap(arr, endIndex, partitionIndex);
+
+    return partitionIndex;
+}
+
+function swap(arr, indexToChange, partitionIndex) {
+    console.log([arr[indexToChange], arr[partitionIndex]], 'before');
+    [arr[indexToChange], arr[partitionIndex]] = [arr[partitionIndex], arr[indexToChange]];
+    
+    console.log([arr[indexToChange], arr[partitionIndex]], 'after');
+}
+
+let sorted = quickSort(unsorted, 0, 3);
+
+console.log(sorted);
